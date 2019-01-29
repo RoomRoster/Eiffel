@@ -19,7 +19,7 @@ android {
         versionCode 31
         versionName "4.1.0"
         setProperty("archivesBaseName", "eiffel-${android.defaultConfig.versionName}")
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
