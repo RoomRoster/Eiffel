@@ -34,16 +34,16 @@ sealed class MainAction : Action {
 
 class MainViewModel : EiffelViewModel<MainState, MainAction>(
     initialState = MainState(),
-    update = update { state, action ->
+    update = update { action ->
         when (action) {
-            is MainAction.Init -> state.copy(
+            is MainAction.Init -> copy(
                 name = action.name,
                 isLoading = false,
                 hasLoadError = false
             )
-            MainAction.LoadData -> state.copy(isLoading = true, hasLoadError = false)
-            MainAction.LoadFailed -> state.copy(isLoading = false, hasLoadError = true)
-            is MainAction.LoadSuccess -> state.copy(
+            MainAction.LoadData -> copy(isLoading = true, hasLoadError = false)
+            MainAction.LoadFailed -> copy(isLoading = false, hasLoadError = true)
+            is MainAction.LoadSuccess -> copy(
                 isLoading = false,
                 hasLoadError = false,
                 sampleData = action.data

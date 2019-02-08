@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.etiennelenhart.eiffel.plugin.dispatchEiffelCustom
-import com.etiennelenhart.eiffel.plugin.dispatchEiffelMessage
 import com.etiennelenhart.eiffel.state.extension.observe
 import com.etiennelenhart.sample.R
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class MainFragment : Fragment(), CoroutineScope {
@@ -50,8 +46,6 @@ class MainFragment : Fragment(), CoroutineScope {
         with(viewModel) {
             dispatch(MainAction.Init("MainFragment: ${Math.random()}"))
 
-            dispatchDelayedCustomMessage()
-
             state.observe(this@MainFragment) { renderState(it) }
         }
     }
@@ -68,20 +62,5 @@ class MainFragment : Fragment(), CoroutineScope {
         loading?.text =
             if (state.isLoading) "LOADING" else if (state.hasLoadError) "THERE WAS AN ERROR" else "not loading"
         movieList?.text = state.sampleData.map { it.toString() }.joinToString { "\n" }
-    }
-
-    private fun dispatchDelayedCustomMessage(delay: Long = 5000) {
-        launch {
-            delay(delay)
-            viewModel.dispatchEiffelMessage("I'm a delayed message from ${delay}ms in the past!")
-            dispatchedDelayedCustomObject(delay)
-        }
-    }
-
-    private fun dispatchedDelayedCustomObject(delay: Long = 5000) {
-        launch {
-            delay(delay)
-            viewModel.dispatchEiffelCustom(customObject)
-        }
     }
 }
